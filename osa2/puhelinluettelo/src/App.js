@@ -128,6 +128,14 @@ const App = () => {
         setNotification(`${contact.name}'s number updated to phonebook.`)
         setTimeout(() => setNotification(""), 5000)
       })
+      .catch(error => {
+        setError(true)
+        setNotification(error.response.data.error)
+        setTimeout(() => {
+          setNotification("")
+          setError(false)
+        }, 7000)
+      })
     } 
   }
 
@@ -153,6 +161,14 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNotification(`${returnedPerson.name} added to phonebook.`)
           setTimeout(() => setNotification(""), 5000)
+        })
+        .catch(error => {
+          setError(true)
+          setNotification(error.response.data.error)
+          setTimeout(() => {
+            setNotification("")
+            setError(false)
+          }, 7000)
         })
     }
 
