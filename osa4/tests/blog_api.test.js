@@ -78,4 +78,8 @@ test("blog without title/url gives an error", async () => {
     .expect(400)
 })
 
+test("blog can be deleted", async () => {
+  
+})
+
 afterAll(() => mongoose.connection.close())
