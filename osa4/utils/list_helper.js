@@ -66,7 +66,8 @@ const blogsInDatabase = async () => {
 }
 
 const getFirstBlogId = async () => {
-  return await Blogs.findOne.id
+  const blog = await Blogs.findOne()
+  return blog.id
 }
 
 module.exports = {
@@ -74,5 +75,6 @@ module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  blogsInDatabase
+  blogsInDatabase,
+  getFirstBlogId
 }

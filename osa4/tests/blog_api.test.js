@@ -79,7 +79,35 @@ test("blog without title/url gives an error", async () => {
 })
 
 test("blog can be deleted", async () => {
+  const id = await listHelper.getFirstBlogId()
+  blogsAtStart = await listHelper.blogsInDatabase()
   
+  const response = await api
+    .delete(`/api/blogs/${id}`)
+    .expect(204)
+
+  blogsAtEnd = await listHelper.blogsInDatabase()
+  expect(blogsAtEnd).toHaveLength(
+    blogsAtStart.length - 1
+  )
+})
+
+
+test("blog likes can be modified", async () => {
+  const blogsToModify = await api.get("/api/blogs")
+  const id = blogsToModify.body[0].id
+  const likes = blogsToModify.body[0].likes + 1
+
+  const blog = {
+    likes: likes
+  }
+  
+  const response = await api
+    .put(`/api/blogs/${id}`)
+    .send(blog)
+    .expect("Content-Type", /application\/json/)
+
+  expect(response.body.likes).toEqual(likes)
 })
 
 afterAll(() => mongoose.connection.close())
