@@ -49,7 +49,7 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
-  if (blogs.lenth === 0) {
+  if (blogs.length === 0) {
     return 0
   }
   return blogs.reduce((sum, blog) => sum + blog.likes, 0)
@@ -70,11 +70,18 @@ const getFirstBlogId = async () => {
   return blog.id
 }
 
+const addUserToBlogs = async (user) => {
+  newBlogs = blogs.map(blog => ({ ...blog, user: user._id.toString()}))
+  //console.log(newBlogs)
+  return newBlogs
+}
+
 module.exports = {
   blogs,
   dummy,
   totalLikes,
   favoriteBlog,
   blogsInDatabase,
-  getFirstBlogId
+  getFirstBlogId,
+  addUserToBlogs
 }

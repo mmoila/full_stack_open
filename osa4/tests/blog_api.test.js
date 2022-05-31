@@ -1,20 +1,44 @@
 const mongoose = require("mongoose")
 const supertest = require("supertest")
 const app = require("../app")
+const bcrypt = require("bcrypt")
 
 const Blog = require("../models/blog")
+const User = require("../models/user")
 const listHelper = require("../utils/list_helper")
 
 const api = supertest(app)
 
+let token = ""
+
 beforeEach(async () => {
   await Blog.deleteMany({})
-  await Blog.insertMany(listHelper.blogs)
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash("salasana", 10)
+  const user = new User({
+    username: "newguy",
+    name: "nimi",
+    passwordHash: passwordHash
+  })
+  const savedUser = await user.save()
+  //console.log(savedUser)
+
+  const blogs = await listHelper.addUserToBlogs(savedUser)
+  //console.log(blogs)
+  await Blog.insertMany(blogs)
+
+  const response = await api
+    .post("/api/login")
+    .send({username: "newguy", password: "salasana"})
+  token = "bearer " + response.body.token
+  //console.log(token)
 })
 
 test("blogs are returned as json", async () => {
   await api
     .get("/api/blogs")
+    .set("Authorization", token)
     .expect(200)
     .expect("Content-Type", /application\/json/)
 })
@@ -43,6 +67,7 @@ test("new blog can be added", async () => {
 
   await api
     .post("/api/blogs")
+    .set("Authorization", token)
     .send(blog)
 
   const lengthAfter = await listHelper.blogsInDatabase()
@@ -60,6 +85,7 @@ test("no likes equals zero", async () => {
 
   const response = await api 
     .post("/api/blogs")
+    .set("Authorization", token)
     .send(blog)
   
   expect(response.body.likes).toEqual(0)
@@ -74,6 +100,7 @@ test("blog without title/url gives an error", async () => {
 
   const response = await api  
     .post("/api/blogs")
+    .set("Authorization", token)
     .send(blog)
     .expect(400)
 })
@@ -84,6 +111,7 @@ test("blog can be deleted", async () => {
   
   const response = await api
     .delete(`/api/blogs/${id}`)
+    .set("Authorization", token)
     .expect(204)
 
   blogsAtEnd = await listHelper.blogsInDatabase()
