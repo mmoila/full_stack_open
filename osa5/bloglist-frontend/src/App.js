@@ -1,146 +1,11 @@
-import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import { useState, useEffect, useRef } from 'react'
+import Togglable from './components/Togglable'
+import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
+import BlogList from './components/BlogList'
+import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
-import loginService from "./services/login"
 
-
-const LoginForm = (props) => {
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    const username = props.username
-    const password = props.password
-
-    try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem("loggedUser", JSON.stringify(user))
-      props.setUser(user)
-      blogService.setToken(user.token)
-      props.setUsername("")
-      props.setPassword("")
-    } catch (error) {
-      props.setError(true)
-      props.setNotification("wrong username or password")
-      setTimeout(() => {
-        props.setNotification(null)
-        props.setError(false)
-    }, 5000)
-    }
-  }
-
-  return (
-    <div>
-      <h2>login to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-            <input
-              type="text"
-              value={props.username}
-              onChange={({ target }) => props.setUsername(target.value) }
-            />
-        </div>
-        <div>
-          password
-            <input
-              type="password"
-              value={props.password}
-              onChange={({ target }) => props.setPassword(target.value)}
-            />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
-  )
-}
-
-const BlogList = ({ blogs, username }) => {
-  return (
-    <>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </>
-  )
-}
-
-const BlogForm = ({ blogs, setBlogs, setNotification }) => {
-  const [blogTitle, setBlogTitle] = useState("")
-  const [blogAuthor, setBlogAuthor] = useState("")
-  const [blogUrl, setBlogUrl] = useState("")
-
-  const createNewBlog = async (event) => {
-    event.preventDefault()
-    const blog = {
-      title: blogTitle,
-      url: blogUrl,
-      author: blogAuthor,
-    }
-    const updatedBlog = await blogService.addNew(blog)
-    setBlogs(blogs.concat(updatedBlog))
-    setNotification(`blog ${blogTitle} by ${blogAuthor} added`)
-    setTimeout(() => {setNotification(null)}, 5000)
-    setBlogTitle("")
-    setBlogAuthor("")
-    setBlogUrl("")
-  }
-
-  return (
-    <div>
-      <h2>create new blog</h2>
-      <form onSubmit={createNewBlog}>
-        <div>
-          title:
-          <input 
-            type="text" 
-            value={blogTitle}
-            onChange={({ target }) => setBlogTitle(target.value)}
-          />
-
-        </div>
-        <div>
-          author:
-          <input
-           type="text"
-           value={blogAuthor}
-           onChange={({ target }) => setBlogAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url:
-          <input 
-            type="text"
-            value={blogUrl}
-            onChange={({ target }) => setBlogUrl(target.value)}
-          />
-        </div>
-        <button type="submit">create</button>
-      </form>
-    </div>
-  )
-}
-
-const Notification = ({ message, error }) => {
-  const notificationStyle = {
-    marginBottom: 20, 
-    padding: 10,
-    fontSize: 26,
-    font: "italic", 
-    color: error ? "red": "green",
-    backgroundColor: "lightgrey",
-    border: "solid",
-    borderColor: error ? "red": "green"
-  }
-
-  if (!message) {
-    return null
-  }
-
-  return (
-    <div className="error" style={notificationStyle}>
-      {message}
-    </div>
-  )
-}
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -149,6 +14,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [notification, setNotification] = useState(null)
   const [error, setError] = useState(false)
+
+  const blogFormRef = useRef()
   
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -181,12 +48,15 @@ const App = () => {
   const blogForm = () => {
     return (
       <>
-      <BlogForm
-        blogs={blogs}
-        setBlogs={setBlogs}
-        setNotification={setNotification}
-      />
-      <BlogList blogs={blogs} username={user.name} />
+        <Togglable buttonLabel="new blog" ref={blogFormRef}>
+          <BlogForm
+            blogs={blogs}
+            setBlogs={setBlogs}
+            setNotification={setNotification}
+            blogFormRef={blogFormRef}
+          />
+        </Togglable>
+        <BlogList blogs={blogs} user={user} setBlogs={setBlogs} />
       </>
     )
   }

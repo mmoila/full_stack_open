@@ -21,4 +21,22 @@ const addNew = async (content) => {
   return response.data
 }
 
-export default { getAll, addNew, setToken }
+const remove = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const url = baseUrl.concat(`/${id}`)
+  const response = await axios.delete(url, config)
+
+  return response.data
+}
+
+const updateBlog = async (content, id) => {
+  const url = baseUrl.concat(`/${id}`)
+  const response = await axios.put(url, content)
+  
+  return response.data
+}
+
+export default { getAll, addNew, setToken, updateBlog, remove }
