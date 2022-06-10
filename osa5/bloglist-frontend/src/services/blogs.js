@@ -39,4 +39,5 @@ const updateBlog = async (content, id) => {
   return response.data
 }
 
-export default { getAll, addNew, setToken, updateBlog, remove }
+const exportedObject = { getAll, addNew, setToken, updateBlog, remove }
+export default exportedObject
