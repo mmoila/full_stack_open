@@ -5,11 +5,10 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 router.get('/', async (request, response) => {
-  const notes = await Blog
-    .find({})
+  const blogs = await Blog
     .find({}).populate('user', { username: 1, name: 1 })
 
-  response.json(notes)
+  response.json(blogs)
 })
 
 router.post('/', async (request, response) => {
@@ -20,9 +19,13 @@ router.post('/', async (request, response) => {
   const user = request.user
   const blog = new Blog({ ...request.body, user: user.id })
 
-  const savedBlog = await blog.save()
+  let savedBlog = await blog.save()
+  savedBlog = await Blog.populate(savedBlog, {
+    path: "user", 
+    select: { username: 1, name: 1 }
+  })
 
-  user.blogs = user.blogs.concat(savedBlog._id)
+  user.blogs = user.blogs.concat(savedBlog.id)
   await user.save()
 
   response.status(201).json(savedBlog)

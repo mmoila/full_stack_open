@@ -3,7 +3,7 @@ import blogs from "../services/blogs"
 import blogService from "../services/blogs"
 import PropTypes from "prop-types"
 
-const Blog = ({ blog, deleteBlog, user }) => {
+const Blog = ({ blog, deleteBlog, user, like }) => {
   const blogStyle = {
     border: "solid",
     borderWidth: 1,
@@ -29,12 +29,12 @@ const Blog = ({ blog, deleteBlog, user }) => {
 
   const showRest = () => {
     return (
-      <div>
+      <div id="blogDetails">
         <p>{blog.url}</p>
         <p>
           likes {likes}
           <span style={{paddingLeft: 5}}>
-            <button onClick={addLike}>like</button>
+            <button onClick={like ? like : addLike}>like</button>
           </span>
         </p>
         <p>{blog.author}</p>
@@ -44,7 +44,7 @@ const Blog = ({ blog, deleteBlog, user }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} id="blogPreview">
       <p>
         {blog.title} {blog.author}
         <span style={{paddingLeft: 5}}>

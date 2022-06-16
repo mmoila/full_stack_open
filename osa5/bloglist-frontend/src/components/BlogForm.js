@@ -1,24 +1,21 @@
 import { useState } from "react"
-import blogService from "../services/blogs"
 
-const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
+const BlogForm = ({
+    createNewBlog
+  }) => {
   const [blogTitle, setBlogTitle] = useState("")
   const [blogAuthor, setBlogAuthor] = useState("")
   const [blogUrl, setBlogUrl] = useState("")
 
-  const createNewBlog = async (event) => {
+  const addNewBlog = async (event) => {
     event.preventDefault()
     const blog = {
       title: blogTitle,
       url: blogUrl,
       author: blogAuthor,
     }
-    const updatedBlog = await blogService.addNew(blog)
-    blogFormRef.current.toggleVisibility()
-
-    setBlogs(blogs.concat(updatedBlog))
-    setNotification(`blog ${blogTitle} by ${blogAuthor} added`)
-    setTimeout(() => {setNotification(null)}, 5000)
+    
+    await createNewBlog(blog)
     setBlogTitle("")
     setBlogAuthor("")
     setBlogUrl("")
@@ -27,13 +24,14 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
   return (
     <div>
       <h2>create new blog</h2>
-      <form onSubmit={createNewBlog}>
+      <form onSubmit={addNewBlog}>
         <div>
           title:
           <input 
             type="text" 
             value={blogTitle}
             onChange={({ target }) => setBlogTitle(target.value)}
+            placeholder="write title here"
           />
 
         </div>
@@ -43,6 +41,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
            type="text"
            value={blogAuthor}
            onChange={({ target }) => setBlogAuthor(target.value)}
+           placeholder="write author here"
           />
         </div>
         <div>
@@ -51,6 +50,7 @@ const BlogForm = ({ blogs, setBlogs, setNotification, blogFormRef }) => {
             type="text"
             value={blogUrl}
             onChange={({ target }) => setBlogUrl(target.value)}
+            placeholder="write url here"
           />
         </div>
         <button type="submit">create</button>
