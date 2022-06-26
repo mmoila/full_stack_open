@@ -31,10 +31,10 @@ const Blog = ({ blog, deleteBlog, user, like }) => {
     return (
       <div id="blogDetails">
         <p>{blog.url}</p>
-        <p>
+        <p id="likes">
           likes {likes}
           <span style={{paddingLeft: 5}}>
-            <button onClick={like ? like : addLike}>like</button>
+            <button id="likeButton" onClick={like ? like : addLike}>like</button>
           </span>
         </p>
         <p>{blog.author}</p>
@@ -44,11 +44,11 @@ const Blog = ({ blog, deleteBlog, user, like }) => {
   }
 
   return (
-    <div style={blogStyle} id="blogPreview">
+    <div style={blogStyle} id="blog" className="blog">
       <p>
         {blog.title} {blog.author}
         <span style={{paddingLeft: 5}}>
-          <button onClick={() => setShowDetails(!showDetails)}>
+          <button id="detailsButton" onClick={() => setShowDetails(!showDetails)}>
             {showDetails ? "hide": "view"}
           </button>
         </span>

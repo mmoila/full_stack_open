@@ -21,9 +21,9 @@ const BlogList = ({ blogs, user, setBlogs }) => {
                       />)
                     
   return (
-    <>
+    <div id="blogList">
       {blogList}
-    </>
+    </div>
   )
 }
 
