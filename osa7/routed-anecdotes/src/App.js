@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useField } from './hooks'
 import {
   Routes,
   Route,
@@ -70,40 +71,52 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const content = useField("")
+  const author = useField("")
+  const info = useField("")
   const navigate = useNavigate()
 
 
   const handleSubmit = (e) => {
     e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0
     })
     navigate("/")
   }
 
+  const resetForm = () => {
+    content.reset()
+    info.reset()
+    author.reset()
+  }
+
+  const removeReset = (object) => {
+    const {reset, ...rest} = object
+    return rest
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={resetForm}>
         <div>
           content
-          <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+          <input {...removeReset(content)} />
         </div>
         <div>
           author
-          <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <input {...removeReset(author)} />
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input {...removeReset(info)} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
+        <button type="reset" style={{marginLeft: "0.5em"}}>reset</button>
       </form>
     </div>
   )
@@ -120,7 +133,7 @@ const Notification = ({ content }) => {
 
   return (
     <div style={style}>
-      <p>{content}</p>
+      <p  >{content}</p>
     </div>
   )
 }
