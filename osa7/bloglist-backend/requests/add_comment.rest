@@ -1,0 +1,6 @@
+PUT http://localhost:3003/api/blogs/62e7a74856d3b873bff73a37/comments
+Content-Type: application/json
+
+{
+  "comment": "this is a comment"
+}

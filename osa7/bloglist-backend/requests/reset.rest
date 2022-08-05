@@ -1,0 +1,2 @@
+post http://localhost:3003/reset/reset
+Content-Type: application/json

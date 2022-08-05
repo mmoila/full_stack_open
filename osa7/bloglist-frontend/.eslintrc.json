@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:cypress/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "testing-library/no-render-in-setup": [
+      "error",
+      { "allowTestingFrameworkSetupHook": "beforeEach" }
+    ]
+  }
+}
