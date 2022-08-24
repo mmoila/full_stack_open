@@ -1,3 +1,5 @@
+/*
+
 interface BmiValues {
   height: number;
   weight: number;
@@ -16,8 +18,13 @@ const parseArguments = (args: Array<string>): BmiValues => {
     throw new Error("Provided values were not numbers!");
   }
 };
+*/
 
-const calculateBmi = (height: number, weight: number) => {
+export const calculateBmi = (height: number, weight: number) => {
+  if (isNaN(height) || isNaN(weight)) {
+    throw new Error("malformatted parameters");
+  }
+
   if (weight === 0) {
     throw new Error("Weight cannot be zero!");
   }
@@ -30,11 +37,12 @@ const calculateBmi = (height: number, weight: number) => {
     return "Overweight I (At risk)";
   } else if (bmi > 24.9 && bmi <= 29.9) {
     return "Overweight II (Moderately obese)";
-  } else if (bmi > 29.9) {
+  } else {
     return "Overweight III (Severely obese)";
   }
 };
 
+/*
 try {
   const { height, weight } = parseArguments(process.argv);
   console.log(calculateBmi(height, weight));
@@ -45,3 +53,4 @@ try {
   }
   console.log(errorMessage);
 }
+*/

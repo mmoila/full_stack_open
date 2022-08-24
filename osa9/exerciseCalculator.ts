@@ -18,28 +18,30 @@ interface ExerciseSummary {
   average: number;
 }
 
-const parseList = (args: Array<string>): Array<number> => {
-  if (args.length < 3) throw new Error("Not enough arguments");
+export const parseList = (args: Array<string|number>): Array<number> => {
+  if (args.length < 2) throw new Error("Not enough arguments");
 
-  const data = args.slice(2);
-
-  const formattedData = data
+  const formattedData = args
     .filter((n) => !isNaN(Number(n)))
     .map((n) => Number(n));
 
-  if (data.length !== formattedData.length) {
+  if (args.length !== formattedData.length) {
     throw new Error("Provided values were not numbers!");
   }
 
   return formattedData;
 };
 
-const produceExerciseSummary = (
+export const produceExerciseSummary = (
   exerciseHours: Array<number>
 ): ExerciseSummary => {
   const dailyTarget = exerciseHours[0];
   const hours = exerciseHours.slice(1);
   const totalHours = hours.reduce((prev, next) => prev + next);
+
+  if (hours.length === 0) {
+    throw new Error("You need to submit at least one exercise!");
+  }
   const dailyAverage = totalHours / hours.length;
 
   const getRating = () => {
@@ -65,6 +67,8 @@ const produceExerciseSummary = (
   };
 };
 
+
+/*
 try {
   const exerciseList = parseList(process.argv);
   console.log(produceExerciseSummary(exerciseList));
@@ -75,3 +79,4 @@ try {
   }
   console.log(errorMessage);
 }
+*/
