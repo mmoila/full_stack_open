@@ -41,7 +41,7 @@ try {
 } catch (error: unknown) {
   let errorMessage = "Something went wrong";
   if (error instanceof Error) {
-    errorMessage.concat(`Error: ${error.message}`);
+    errorMessage += (`Error: ${error.message}`);
   }
   console.log(errorMessage);
 }

@@ -69,9 +69,9 @@ try {
   const exerciseList = parseList(process.argv);
   console.log(produceExerciseSummary(exerciseList));
 } catch (error: unknown) {
-  let errorMessage = "Something went wrong ";
+  let errorMessage = "Something went wrong. ";
   if (error instanceof Error) {
-    errorMessage.concat(`Error: ${error.message}`);
+    errorMessage += (`Error: ${error.message}`);
   }
   console.log(errorMessage);
 }
