@@ -36,9 +36,10 @@ const parseList = (args: Array<string>): Array<number> => {
 
 const produceExerciseSummary = (exerciseHours: Array<number>): ExerciseSummary => {
 
-  const dailyTarget = 2
-  const totalHours = exerciseHours.reduce((prev, next) => prev + next)
-  const dailyAverage = totalHours / exerciseHours.length
+  const dailyTarget = exerciseHours[0]
+  const hours = exerciseHours.slice(1)
+  const totalHours = hours.reduce((prev, next) => prev + next)
+  const dailyAverage = totalHours / hours.length
 
   const getRating = () => {
     if (totalHours < 5) {
@@ -53,8 +54,8 @@ const produceExerciseSummary = (exerciseHours: Array<number>): ExerciseSummary =
   const ratingObject = getRating()
 
   return {
-    periodLength: exerciseHours.length,
-    trainingDays: exerciseHours.filter(n => n !== 0).length,
+    periodLength: hours.length,
+    trainingDays: hours.filter(n => n !== 0).length,
     success: dailyAverage >= dailyTarget ? true : false,
     rating: ratingObject.rating,
     ratingDescription: ratingObject.description,
