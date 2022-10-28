@@ -1,7 +1,6 @@
 import BookList from "./BookList"
 import { useState } from "react"
 
-
 const Books = (props) => {
   const [genre, setGenre] = useState(null)
 
@@ -9,9 +8,11 @@ const Books = (props) => {
     return null
   }
 
+
   return (
     <div>
       <h2>books</h2>
+      <button onClick={() => props.setPage('add')}>add book</button>
       <p>in genre <b>{genre == null ? "all" : genre}</b></p>
       <BookList 
         show={props.show} 

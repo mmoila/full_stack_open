@@ -16,11 +16,7 @@ const LoginForm = ({ show, setNotification, setToken, setPage }) => {
         setNotification({message: null, error: false})
       }, 5000);
     },
-  })
-
-
-  useEffect(() => {
-    if ( result.data ) {
+    onCompleted: () => {
       const token = result.data.login.value
       setToken(token)
       localStorage.setItem("user-token", token)
@@ -28,6 +24,13 @@ const LoginForm = ({ show, setNotification, setToken, setPage }) => {
       setUsername("")
       setPassword("")
       setPage("authors")
+    }
+  })
+
+
+  useEffect(() => {
+    if ( result.data ) {
+      console.log("useeffect running")
     }
   }, [result.data]) // eslint-disable-line
 

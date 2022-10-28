@@ -14,6 +14,7 @@ const NewBook = (props) => {
   const [ addBook ] = useMutation(ADD_BOOK, {
     refetchQueries: [ { query: ALL_AUTHORS } ],
     update: (cache, response) => {
+      console.log("newBook component updates cache")
       updateCache(cache, { query: ALL_BOOKS }, response.data.addBook)
     },
     onError: (error) => {

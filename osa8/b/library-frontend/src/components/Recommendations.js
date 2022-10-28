@@ -4,13 +4,13 @@ import { useQuery } from "@apollo/client"
 
 const Recommendations = (props) => {
 
-  const result = useQuery(GET_ME)
+  const result = useQuery(GET_ME, {
+    skip: !props.show
+  });
 
   if (!props.show || result.loading) {
     return null
   }
-  console.log(result)
-  console.log(result.data)
 
   const genre = result.data.me.favoriteGenre
 

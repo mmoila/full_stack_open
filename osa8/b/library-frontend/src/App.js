@@ -34,7 +34,7 @@ const App = () => {
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData, client }) => {
       const addedBook = subscriptionData.data.bookAdded
-      console.log(`subscription data: ${JSON.stringify(subscriptionData)}`)
+      window.alert(`book ${addedBook.title} added`)
       updateCache(client.cache, { query: ALL_BOOKS }, addedBook)
     }
   })
@@ -49,7 +49,6 @@ const App = () => {
           ? <button onClick={() => setPage("login")}>login</button>
           : (
           <div style={{display: "inline"}}>
-            <button onClick={() => setPage('add')}>add book</button>
             <button onClick={() => setPage("recommendations")}>recommend</button>
             <button onClick={logout}>logout</button>
           </div>
@@ -65,7 +64,7 @@ const App = () => {
 
       <Authors show={page === 'authors'} setNotification={setNotification}/>
 
-      <Books show={page === 'books'} />
+      <Books show={page === 'books'} setPage={setPage} />
 
       <NewBook show={page === 'add'} setNotification={setNotification} />
 

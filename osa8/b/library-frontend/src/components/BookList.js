@@ -2,20 +2,23 @@ import { useQuery } from "@apollo/client"
 
 import { ALL_BOOKS } from "../queries"
 
-const BookList = ({ show, genre, setGenre, filterButtons }) => {
+const BookList = ({ show, genre, setGenre, filterButtons, bookList }) => {
 
   const resultForAll = useQuery(ALL_BOOKS)
   const result = useQuery(ALL_BOOKS, {
-    variables: {genre: genre}
+    variables: genre ? {genre: genre} : {}
   })
+  console.log(result, genre)
   
-  if (resultForAll.loading || result.loading) {
+  if (result.loading || resultForAll.loading) {
     return null
   }
 
   let genres = []
   const allBooks = resultForAll.data.allBooks
   const filteredBooks = result.data.allBooks
+
+  console.log(filteredBooks)
   
   allBooks.forEach(b => {
     const filteredGenres = b.genres.filter(g => genres.indexOf(g) < 0)
