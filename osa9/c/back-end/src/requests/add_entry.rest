@@ -1,0 +1,16 @@
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{   
+    "date": "2015-01-01",
+    "type": "Hospital",
+    "specialist": "D House",
+    "diagnosisCodes": ["S62.5", "J10.1"],
+    "description": "Testing entry",
+    "discharge": {
+        "date": "2015-01-16",
+        "criteria": "Something here"
+    }
+}
+
+
