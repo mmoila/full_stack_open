@@ -4,8 +4,11 @@ import AppBar from "./AppBar";
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    flexShrink: 1,
+    flex: 2,
+    backgroundColor: "#e1e4e8",
+    maxWidth: 500,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 });
 
