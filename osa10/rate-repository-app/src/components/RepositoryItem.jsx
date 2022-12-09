@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     flexDirection: "row",
     paddingTop: 5,
     paddingLeft: 10,
@@ -18,9 +18,14 @@ const styles = StyleSheet.create({
     maxWidth: 350,
   },
   stat: {
-    padding: 8,
+    flex: 1,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingRight: 12,
+    paddingLeft: 12,
     fontWeight: theme.fontWeights.bold,
     textAlign: "center",
+    minWidth: 0,
   },
   name: {
     padding: 5,
@@ -45,6 +50,7 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50,
+    overflow: "visible",
   },
 });
 
@@ -61,9 +67,14 @@ const formatNumber = (number) => {
 const RepositoryItem = ({ rep }) => {
   return (
     <View style={{ ...styles.container, padding: 10, flex: 1 }}>
-      <View style={{ ...styles.container, flexDirection: "row" }}>
+      <View
+        style={{ ...styles.container, flexDirection: "row", border: "solid" }}
+      >
         <View style={styles.container}>
-          <Image style={styles.image} source={rep.ownerAvatarUrl}></Image>
+          <Image
+            style={styles.image}
+            source={{ uri: rep.ownerAvatarUrl }}
+          ></Image>
         </View>
         <View
           style={{ ...styles.container, paddingLeft: 10, flexWrap: "wrap" }}

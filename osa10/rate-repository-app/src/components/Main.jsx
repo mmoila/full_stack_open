@@ -6,9 +6,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 2,
     backgroundColor: "#e1e4e8",
-    maxWidth: 500,
-    marginLeft: "auto",
-    marginRight: "auto",
+    maxWidth: 400,
+    //marginLeft: "auto",
+    //marginRight: "auto",
   },
 });
 

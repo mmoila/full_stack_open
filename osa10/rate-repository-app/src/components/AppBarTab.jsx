@@ -7,7 +7,9 @@ const styles = StyleSheet.create({
     fontSize: theme.fontSizes.appBarColor,
     fontStyle: theme.fonts.main,
     fontWeight: theme.fontWeights.bold,
-    padding: 10,
+    paddingTop: 40,
+    paddingLeft: 15,
+    paddingBottom: 10,
   },
 });
 
