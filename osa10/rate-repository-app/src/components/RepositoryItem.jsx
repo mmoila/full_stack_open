@@ -58,7 +58,6 @@ const formatNumber = (number) => {
   if (number >= 1000) {
     const thousands = Math.round((number / 1000) * 10) / 10;
     const numString = thousands.toString();
-    console.log(numString);
     return `${numString.substring(0, numString.indexOf(".") + 2)}k`;
   }
   return number;
@@ -67,9 +66,7 @@ const formatNumber = (number) => {
 const RepositoryItem = ({ rep }) => {
   return (
     <View style={{ ...styles.container, padding: 10, flex: 1 }}>
-      <View
-        style={{ ...styles.container, flexDirection: "row", border: "solid" }}
-      >
+      <View style={{ ...styles.container, flexDirection: "row" }}>
         <View style={styles.container}>
           <Image
             style={styles.image}
